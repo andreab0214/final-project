@@ -1,0 +1,102 @@
+ [
+  {
+    "formName": "Wall Sign Survey",
+
+    "elements": [
+      {
+        "id": "wallType",
+        "label": "wallType",
+        "question": "Wall Type:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "wallColor",
+        "label": "wallColor",
+        "question": "Wall Color:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "electricty",
+        "label": "electricty",
+        "question": "Electricity:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "wallDims",
+        "label": "wallDims",
+        "question": "Wall Dimensions:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "existingDims",
+        "label": "existingDims",
+        "question": "Existing Sign Dimensions:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "frameType",
+        "label": "frameType",
+        "question": "Frame Type:",
+        "type": "text",
+        "answer": ""
+      }
+    ],
+    "isAnswered": false
+  },
+  {
+    "formName": "Pylon Sign Survey",
+
+    "elements": [
+      {
+        "id": "faceType",
+        "label": "faceType",
+        "question": "Face Type:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "frameColor",
+        "label": "frameColor",
+        "question": "Frame Color:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "electricty",
+        "label": "electricty",
+        "question": "Electricity:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "BoxDims",
+        "label": "BoxDims",
+        "question": "Box Dimensions:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "overallFrame",
+        "label": "overallFrame",
+        "question": "Overall Frame Dimensions:",
+        "type": "text",
+        "answer": ""
+      },
+      {
+        "id": "frameType",
+        "label": "frameType",
+        "question": "Frame Type:",
+        "type": "text",
+        "answer": ""
+      }
+    ],
+    "isAnswered": false
+  }
+]
+
+

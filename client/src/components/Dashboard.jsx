@@ -6,7 +6,6 @@ import { UserContext } from './UserContext';
 const Dashboard = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext);
     const [error, setError] = useState();
-    const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,21 +13,18 @@ const Dashboard = () => {
         .then(res => {
             return res.json()})
         .then(data => {
-            
             if(data.status === 200) {
                 setCurrentUser(data.data)
-                setIsLoading(false)
-            } if(data.status === 401){
+            } else if(data.status === 401){
                 navigate("/login")
-            } if(data.status === 400) {
+            } else { 
                 setError(data.message)
             }
 
         })
         .catch(err => {
-        console.log("error")
-            console.log("error", err)})
-    },[])
+            setError(err.message)
+    })},[])
 
    if(!currentUser){
     return <div>...Loading</div>

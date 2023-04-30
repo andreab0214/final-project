@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const CreateUser = ({userId, setCreateUser, setMyUser}) => {
+const CreateUser = ({userId, setCreateUser, myUser,setMyUser}) => {
 //adds user to mongoDB 
 
     const navigate = useNavigate();

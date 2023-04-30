@@ -5,7 +5,6 @@ export const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState()
 
-
   useEffect(() => {
     fetch(`/api/user`)
     .then(res => {

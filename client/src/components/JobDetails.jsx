@@ -58,7 +58,7 @@ const handleJobApproval = (e) => {
 .then(res => res.json())
 .then(data => {
    if(data.status === 200){
-    
+    navigate(`/dashboard/${userName}`)
    }
 })
 .catch(err => console.log(err))
@@ -96,9 +96,9 @@ const handleJobCompleted = (e) => {
 {isShow ? jobDetails.drawings.length > 0 ? 
     jobDetails.drawings.map((drawing) => {
         if(drawing.format === "pdf"){
-            return <PdfDisplayer pdfUrl={drawing.url}/>
+            return <PdfDisplayer pdfUrl={drawing.url} key={drawing.public_id}/>
         }
-       return <ImageDisplay publicId={drawing.public_id} />
+       return <ImageDisplay publicId={drawing.public_id}key={drawing.public_id} />
     }) 
     : <p>No drawings attached</p>
  : null }

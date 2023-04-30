@@ -21,7 +21,7 @@ const addDrawing = async (req, res) => {
     await client.connect();
     const db = client.db("onSite");
     const loggedUser = await db.collection("users").findOne({ _id: _id });
-    console.log("hi");
+
     const uploads = await Promise.all(
       drawings.map((drawing) => {
         return cloudinary.uploader.upload(drawing, {
@@ -29,8 +29,6 @@ const addDrawing = async (req, res) => {
         });
       })
     );
-    console.log("hi2");
-    console.log(uploads);
 
     const uploadingDrawings = await Promise.all(
       uploads.map((upload) => {

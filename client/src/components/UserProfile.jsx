@@ -53,7 +53,7 @@ const UserProfile = () => {
   return (
     <div>
         {createUser ? 
-        <CreateUser userId={user._id} setCreateUser={setCreateUser} setMyUser={setMyUser} />
+        <CreateUser userId={myUser._id} setCreateUser={setCreateUser} myUser={myUser} setMyUser={setMyUser} />
         : 
        <div>
         <DivContainer>

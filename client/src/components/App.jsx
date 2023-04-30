@@ -6,7 +6,6 @@ import Homepage from "./Homepage";
 import styled from "styled-components";
 import Packages from "./Packages";
 import PackagePayment from "./PackagePayment";
-import Profile from "./Profile";
 import Dashboard from "./Dashboard";
 import UserProfile from "./UserProfile";
 import Login from "./Login";
@@ -28,7 +27,6 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/packages" element={<Packages/>} />
         <Route path="/purchase/:packageName" element={<PackagePayment/>} />
-        <Route path="/profile/" element={<Profile />} />
         <Route path="/dashboard/" element={<Dashboard />} />
         <Route path="/dashboard/:userName" element={<UserProfile />} />
         <Route path="/approvedJobs/:userName" element={<ApprovedJobs />} />

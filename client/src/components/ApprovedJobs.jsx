@@ -29,9 +29,8 @@ const ApprovedJobs = () => {
        {
         <JobContainer>
         {user.jobs.map((job) => {
-            console.log(job)
             if(job.approved){
-                return <JobCard job={job} userName={userName} />
+                return <JobCard job={job} userName={userName} key={job._id} />
             }
         })}</JobContainer>}
         

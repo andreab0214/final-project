@@ -39,7 +39,7 @@ express()
   .get("/api/users", getUsers)
   //batchImport not working, used this to import templates.json
   .post("/api/addTemplates", addTemplates)
-  .get("/api/templates", getTemplates)
+  .get("/api/templates", validateToken, getTemplates)
   .get("/api/user", validateToken, getUserId)
   .get("/api/user/:userName", validateToken, getUserProfile)
   .post("/api/create-user/:userId", validateToken, createUser)

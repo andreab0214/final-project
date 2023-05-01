@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState,useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
+import { UserContext } from './UserContext';
+import {COLORS} from "../constants/COLORS"
+import styled from 'styled-components';
 
 const CreateJob = () => {
     const location = useLocation();
     const myUser = location.state;
     const navigate = useNavigate()
+    const {currentUser, setCurrentUser} = useContext(UserContext);
     const [drawings, setDrawings] = useState();
     const [templates, setTemplates] = useState();
     const [errors, setErrors] = useState(null);
@@ -20,25 +24,35 @@ const CreateJob = () => {
         }
     );
 
+        //if currentUser is not defined, return user to login
+    useEffect(()=>{
+        if(!currentUser){
+            navigate("/login")
+        }
+    },[currentUser])
+    
+
     //fetch form templates from database
     useEffect(() => {
         fetch('/api/templates')
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             if(data.status === 200){
                 setTemplates(data.data)
+            } else {
+                setErrors(data.message)
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => setErrors(err.message))
     },[])
+
 
     const handleDrawingUpload = (e) => {
         const files = e.target.files;
         transformFile(files)
         
     }
-
+    //transform image url into base64
     const transformFile = (files) => {
         const tempFileArray = []
        for (let i = 0; i < files.length; i++){
@@ -75,6 +89,7 @@ const CreateJob = () => {
        const copyFormData = [...formData.forms]
         
        if(isChecked){
+        //add form to forms data
         copyFormData.push(form)
        } else {
         //remove form from forms data
@@ -88,8 +103,7 @@ const CreateJob = () => {
     }
    
     const handleOnSubmit = (e) => {
-e.preventDefault()
-
+        e.preventDefault()
         fetch(`/api/create-job/${myUser._id}`,{
             method: "POST",
             headers: {
@@ -104,13 +118,13 @@ e.preventDefault()
             if(data.status === 200){
                 navigate(`/dashboard/${myUser.name}`)
             }
-            if(data.status === 401){
+            else if(data.status === 401){
                 navigate("/login")
             }else{
                 setErrors(data.message)
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => setErrors(data.message))
     }
 
     if(!templates){
@@ -118,57 +132,141 @@ e.preventDefault()
     }
 
   return (
-    <div>
+    <Div>
         <h2>Create New Job</h2>
-        <form onSubmit={handleOnSubmit}>
+        <Form onSubmit={handleOnSubmit}>
         
-        <div>
+        <LabelDiv>
                 <label htmlFor='service'>Service</label>
                 <input name='type' type='radio' id='service' value='Service' onChange={handleOnChange} />
-            </div>
-            <div>
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='installation'>Installation</label>
                 <input name='type' type='radio' id='installation' value='Installation' onChange={handleOnChange} />
-            </div>
-            <div>
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='removal'>Removal</label>
-                <input name='type' type='radio' id='Removal' value='removal' onChange={handleOnChange} />
-            </div>
+                <input name='type' type='radio' id='removal' value='removal' onChange={handleOnChange} />
+            </LabelDiv>
             
-            <div>
+            <LabelDiv>
                 <label htmlFor='jobId'>Job ID:</label>
-                <input name='jobId' type='text' id='jobId' onChange={handleOnChange} required/>
-            </div>
-            <div>
+                <StyledInput name='jobId' type='text' id='jobId' onChange={handleOnChange} required/>
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='clientName'>Client:</label>
-                <input name='clientName' type='text' id='clientName' onChange={handleOnChange} />
-            </div>
-            <div>
+                <StyledInput name='clientName' type='text' id='clientName' onChange={handleOnChange} />
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='address'>Address:</label>
-                <input name='address' type="address" id='address' onChange={handleOnChange} />
-            </div>
-            <div>
-                <label htmlFor='drawings'>Drawings:</label>
-                <input name='drawings' type="file" accept='image/' multiple="multiple" onChange={handleDrawingUpload}/>
-            </div>
-            <div>
+                <StyledInput name='address' type="address" id='address' onChange={handleOnChange} />
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='notes'>Additional Info:</label>
-                <textarea name='notes' type="text" id='notes' onChange={handleNotes}/>
-            </div>
+                <StyledTextArea name='notes' type="text" id='notes' onChange={handleNotes}/>
+            </LabelDiv>
+            <LabelDiv>
+                <label htmlFor='drawings'>Drawings:</label>
+                <FileInput name='drawings' type="file" accept='image/' multiple="multiple" onChange={handleDrawingUpload}/>
+                
+            </LabelDiv>
             <p>Add Forms:</p>
             {templates.map((template) => {
                 return <div key={template._id}>
-                    <input type='checkbox' name={template.formName} id='forms' onChange={handleForms} />
-                    <label htmlFor='forms'> {template.formName} </label>
+                    <input type='checkbox' name={template.formName} id={`${template.formName}`} onChange={handleForms} />
+                    <label htmlFor={`${template.formName}`}> {template.formName} </label>
                      </div>
             }) }
-           <button type='submit'>Create Job</button>
-        </form>
+           <StyledButton type='submit'>Create Job</StyledButton>
+        </Form>
         {errors ? <div>
             <p>{errors} </p>
         </div> : null }
-    </div>
+    </Div>
   )
 }
+
+const Div = styled.div`
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+`
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    div{
+        display: flex;
+        align-items: center;
+    }
+
+    label{
+        text-align: right;
+    }
+   
+`
+
+const LabelDiv = styled.div`
+    display:flex;
+    justify-content: space-between;
+`
+
+const StyledInput = styled.input`
+    all: unset;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: .5rem;
+    margin-left: .5rem;
+    width: 20rem;
+`
+const StyledTextArea = styled.textarea`
+    all: unset;
+    font-size: 1rem;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: .5rem;
+    margin-left: .5rem;
+    width: 20rem;
+    
+`
+
+const FileInput = styled.input.attrs({type: 'file'})`
+margin-left: .5rem;
+padding: .5rem;
+  &::-webkit-file-upload-button {
+    all:unset;
+    background-color: ${COLORS.linkBackground};
+    padding: 1em;
+    border-radius: 3px;
+    margin-right: 1rem;
+        &:hover{
+            cursor: pointer;
+            background-color: ${COLORS.hoverBackground};
+            color: ${COLORS.hoverColor};
+        }
+    
+  }
+ 
+`
+
+const StyledButton = styled.button`
+    font-size: 1rem;
+    padding: .5rem;
+    border: none;
+    border-radius: 3px;
+    background-color: ${COLORS.linkBackground};
+        &:hover{
+            background-color: ${COLORS.hoverBackground};
+            color: ${COLORS.hoverColor};
+            cursor: pointer;
+        }
+    
+`
 
 export default CreateJob

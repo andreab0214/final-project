@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { COLORS } from "../constants/COLORS";
 
 export default createGlobalStyle`
 
@@ -36,8 +37,9 @@ export default createGlobalStyle`
   body {
       line-height: 1;
       font-family: 'poppins', sans-serif;
-      background-color: #f7e9d5;
-      color: #246A73;
+      background-color: ${COLORS.background};
+      color: ${COLORS.color};
+      font-size: 1.2rem;
   }
   ol, ul {
       list-style: none;

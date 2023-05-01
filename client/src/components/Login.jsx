@@ -1,6 +1,8 @@
 import {useState, useContext, useEffect} from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import { COLORS } from '../constants/COLORS';
+import styled from 'styled-components';
 
 const Login = () => {
     const [formData, setFormData] = useState({email: "", password:""});
@@ -44,23 +46,75 @@ const Login = () => {
         
 
   return (
-    <div>
+    <Div>
 <h2>Login</h2>
-<form onSubmit={handleOnSubmit}>
-    <div>
+<Form onSubmit={handleOnSubmit}>
+    <LabelDiv>
     <label htmlFor='email'>Email:</label>
-    <input name='email' type='email' id='email' onChange={handleOnChange} required/>
-    </div>
-    <div>
+    <StyledInput name='email' type='email' id='email' onChange={handleOnChange} required/>
+    </LabelDiv>
+    <LabelDiv>
     <label htmlFor='password'>Password:</label>
-    <input name='password' type='password' id='password' onChange={handleOnChange} required/>
-    </div>
-    <button type='submit'>Login</button>
-</form>
+    <StyledInput name='password' type='password' id='password' onChange={handleOnChange} required/>
+    </LabelDiv>
+    <StyledButton type='submit'>Login</StyledButton>
+</Form>
 {error ? <div>{error}</div> : null }
-    </div>
+    </Div>
     
   )
 }
+
+const Div = styled.div`
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+`
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    div{
+        display: flex;
+        align-items: center;
+    }
+
+    label{
+        text-align: right;
+    }
+   
+`
+
+const LabelDiv = styled.div`
+    display:flex;
+    justify-content: space-between;
+`
+
+const StyledInput = styled.input`
+    all: unset;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: .5rem;
+    margin-left: .5rem;
+    width: 20rem;
+`
+const StyledButton = styled.button`
+    font-size: 1rem;
+    padding: .5rem;
+    border: none;
+    border-radius: 3px;
+    background-color: ${COLORS.linkBackground};
+        &:hover{
+            background-color: ${COLORS.hoverBackground};
+            color: ${COLORS.hoverColor};
+            cursor: pointer;
+        }
+    
+`
 
 export default Login

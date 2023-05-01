@@ -13,6 +13,7 @@ import SignUp from "./SignUp";
 import CreateJob from "./CreateJob";
 import JobDetails from "./JobDetails";
 import ApprovedJobs from "./ApprovedJobs";
+import Footer from "./Footer";
 
 const App = () => {
 
@@ -34,13 +35,16 @@ const App = () => {
         <Route path="/jobs/:userName/:jobId" element={<JobDetails />} />
       </Routes>
       </Main>
+      <Footer />
     </div>
   );
 }
 
 const Main = styled.main`
-  padding: 7rem;
-
+  padding-top: 5rem;
+  padding-bottom: 6rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 `
 
 export default App;

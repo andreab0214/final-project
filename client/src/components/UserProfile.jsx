@@ -1,23 +1,22 @@
 import {useState, useEffect, useContext} from 'react'
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
-import CreateJob from './CreateJob';
 import CreateUser from './CreateUser';
 import { UserContext } from './UserContext';
 import styled from 'styled-components';
 import LinkButton from './buttons/LinkButton';
-import ApprovedJobs from './ApprovedJobs';
 import JobCard from './JobCard';
 
 const UserProfile = () => {
-    const location = useLocation();
     const navigate = useNavigate();
+    const location = useLocation()
     const {userName} = useParams();
     const {currentUser, setCurrentUser} = useContext(UserContext);
     const [isLoading, setIsLoading] = useState(true)
     const [myUser, setMyUser] = useState();
+    const user = location.state
     //tracking if its the first time admin creates their users. if it is, let them create the users account. if not, display user info
     const [createUser, setCreateUser] = useState(false)
-    const user = location.state;
+
 
     useEffect(() => {
         fetch(`/api/user/${userName}`)
@@ -31,6 +30,7 @@ const UserProfile = () => {
                 setCreateUser(true)
                 setIsLoading(false)
             } if(data.status === 401){
+                setCurrentUser(null)
                 navigate('/login')
             } 
              else {
@@ -43,8 +43,6 @@ const UserProfile = () => {
             console.log("error", err)})
     },[userName])
 
-    
-
     if(isLoading){
         return <div>...Loading</div>
        }
@@ -53,17 +51,17 @@ const UserProfile = () => {
   return (
     <div>
         {createUser ? 
-        <CreateUser userId={myUser._id} setCreateUser={setCreateUser} myUser={myUser} setMyUser={setMyUser} />
+        <CreateUser userId={user?._id} setCreateUser={setCreateUser} myUser={myUser} setMyUser={setMyUser} />
         : 
        <div>
         <DivContainer>
         <h2>{myUser.name}</h2>
         <p>{myUser.email} </p>
+        <LinkButton url={`/approvedJobs/${myUser.name}`}>Approved Jobs</LinkButton>
+        
         {/* create a new Job only if logged in user is admin/manager */}
         {currentUser.role === "user" ? null : <LinkButton url='/createjob' state={myUser && myUser} >Create New Job</LinkButton>}
 
-        <Link to={`/approvedJobs/${myUser.name}`} >Approved Jobs:</Link>
-        
         <h3>Current Jobs:</h3>
         
         </DivContainer>
@@ -87,6 +85,10 @@ const UserProfile = () => {
 }
 
 const DivContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .5rem;
     h2 {
         font-size:2rem;
         

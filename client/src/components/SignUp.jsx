@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import {COLORS} from "../constants/COLORS"
 
 const SignUp = ({numUsers}) => {
     const [formData, setFormData] = useState({fname: "", lname: "", email: "", password: "", users:numUsers })
@@ -33,34 +35,78 @@ const SignUp = ({numUsers}) => {
 
   return (
     <div>
-        <form onSubmit={handleOnSubmit}>
-            <h2>SignUp Now!</h2>
-            <div>
+        <Form onSubmit={handleOnSubmit}>
+            <LabelDiv>
                 <label htmlFor='company'>Company Name:</label>
-                <input name='company' type="text" id="company" onChange={handleOnChange} required />
-            </div>
-            <div>
+                <StyledInput name='company' type="text" id="company" onChange={handleOnChange} required />
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='fname'>First Name:</label>
-                <input name='fname' type="text" id="fname" onChange={handleOnChange} required/>
-            </div>
-            <div>
+                <StyledInput name='fname' type="text" id="fname" onChange={handleOnChange} required/>
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='lname'>Last Name:</label>
-                <input name='lname' type="text" id="lname" onChange={handleOnChange} required/>
-            </div>
-            <div>
+                <StyledInput name='lname' type="text" id="lname" onChange={handleOnChange} required/>
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='email'>Email:</label>
-                <input name='email' type="email" id="email" onChange={handleOnChange} required/>
-            </div>
-            <div>
+                <StyledInput name='email' type="email" id="email" onChange={handleOnChange} required/>
+            </LabelDiv>
+            <LabelDiv>
                 <label htmlFor='password'>Password:</label>
-                <input name='password' type="password" id="password" onChange={handleOnChange} required/>
-            </div>
-            <button type='submit'>SignUp</button>
+                <StyledInput name='password' type="password" id="password" onChange={handleOnChange} required/>
+            </LabelDiv>
+            <StyledButton type='submit'>Purchase Now</StyledButton>
 
-        </form>
+        </Form>
         {error ? <div> {error} </div> : null}
         </div>
   )
 }
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    div{
+        display: flex;
+        align-items: center;
+    }
+
+    label{
+        text-align: right;
+    }
+   
+`
+
+const LabelDiv = styled.div`
+    display:flex;
+    justify-content: space-between;
+`
+
+const StyledInput = styled.input`
+    all: unset;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: .5rem;
+    margin-left: .5rem;
+    width: 20rem;
+`
+
+const StyledButton = styled.button`
+    font-size: 1rem;
+    padding: .5rem;
+    border: none;
+    border-radius: 3px;
+    background-color: ${COLORS.linkBackground};
+        &:hover{
+            background-color: ${COLORS.hoverBackground};
+            color: ${COLORS.hoverColor};
+            cursor: pointer;
+        }
+    
+`
 
 export default SignUp

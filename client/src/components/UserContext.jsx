@@ -14,11 +14,10 @@ export const UserProvider = ({ children }) => {
             setCurrentUser(data.data)
         } 
          else {
-            setCurrentUser(undefined)
+            setCurrentUser(null)
         }
     })
     .catch(err => {
-    console.log("error")
         console.log("error", err)})
 },[])
   

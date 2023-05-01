@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { COLORS } from '../constants/COLORS'
 
 const JobCard = ({job, userName}) => {
   return (
@@ -23,14 +24,14 @@ const JobLink = styled(Link)`
     align-items: flex-start;
     justify-content: center;
     gap: 1rem;
-  
+    padding:1rem;
     background-color: ${props => {
         if(props.isapproved === "true"){
-            return "white"
+            return COLORS.jobApproved
         } else if (props.iscompleted === "true"){
-            return "lightgreen"
+            return COLORS.jobCompleted
         } else {
-            return "lightblue"
+            return COLORS.jobBackground
         }
     }};
    

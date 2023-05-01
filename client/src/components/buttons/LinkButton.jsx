@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
+import {COLORS} from '../../constants/COLORS'
 
 const LinkButton = ({url, state, children}) => {
     
@@ -9,14 +10,16 @@ const LinkButton = ({url, state, children}) => {
 
 const StyledLink = styled(Link)`
     all: unset;
-    background-color: #A44200;
-    color: #F3DFC1;
-    padding: .4rem .6rem;
+    background-color: ${COLORS.linkBackground};
+    padding: .6rem 1rem;
+    text-align: center;
+    width: 10rem;
     border-radius: 2px;
     transition: all 0.1s ease-in-out;
     
     &:hover {
-        background-color: #8EA4D2;
+      background-color: ${COLORS.hoverBackground};
+      color: ${COLORS.hoverColor};
         cursor: pointer;
     }
 `

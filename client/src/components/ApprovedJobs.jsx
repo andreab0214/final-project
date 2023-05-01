@@ -13,7 +13,6 @@ const ApprovedJobs = () => {
         fetch(`/api/user/${userName}`)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             setUser(data.data)
         })
         .catch(err => console.log(err))
@@ -26,13 +25,13 @@ const ApprovedJobs = () => {
   return (
     <div>
         <h3>Approved Jobs:</h3>
-       {
+       {user.jobs.length > 0 ?
         <JobContainer>
         {user.jobs.map((job) => {
             if(job.approved){
                 return <JobCard job={job} userName={userName} key={job._id} />
             }
-        })}</JobContainer>}
+        })}</JobContainer> : <P>No Jobs Approved</P>}
         
     </div>
   )
@@ -42,6 +41,10 @@ const JobContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
+`
+
+const P = styled.p`
+    margin-top: 2rem;
 `
 
 export default ApprovedJobs

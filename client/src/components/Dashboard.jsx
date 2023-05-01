@@ -2,6 +2,7 @@ import {useEffect, useState, useContext} from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './UserContext';
+import {COLORS} from "../constants/COLORS"
 
 const Dashboard = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext);
@@ -16,6 +17,7 @@ const Dashboard = () => {
             if(data.status === 200) {
                 setCurrentUser(data.data)
             } else if(data.status === 401){
+                setCurrentUser(null)
                 navigate("/login")
             } else { 
                 setError(data.message)
@@ -33,46 +35,66 @@ const Dashboard = () => {
     return (
         <div>
             {error ? <p>{error} </p> : 
-            <div>
-                <h2>{`Hello, ${currentUser.fname}`} </h2> 
-                <p>My Users</p>
+            <Container>
+                <H2>{`Hello, ${currentUser.fname}`} </H2> 
+                <P>My Users</P>
                 <UserContainer>
                     {currentUser.usersId.map((user) =>{
-                        return (<RoundLink key={user._id} to={`/dashboard/${user.name}`} state={user}>
+                        return (<RoundLink key={user._id} to={`/dashboard/${user.name}`} state={user} >
                             <p>{user.name}</p>
                         </RoundLink>)
                     })}
                 </UserContainer>
-            </div>
+            </Container>
             }
         </div>
     )
 }
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    
+`
+
+const P = styled.p`
+    font-style: italic;
+    font-size: 1.5rem;
+`
+
 const UserContainer = styled.div`
     display: flex;
     gap: 4rem;
     flex-wrap: wrap;
-    margin-top: 3rem;
+`
+
+const H2 = styled.h2`
+    font-size: 1.5rem;
 `
 
 const RoundLink = styled(Link)`
-all: unset;
-    background-color: #A44200;
-    height: 10rem;
-    width: 10rem;
+    all: unset;
+    background-color: ${COLORS.linkBackground};
+    height: 12rem;
+    width: 12rem;
+    box-sizing: border-box;
+    padding: 1rem;
     border-radius: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 
     p {
         font-size: 1.5rem;
-        color: #DDBEA8;
+        
     }
 
-    :hover{
+    &:hover{
         cursor: pointer;
-        opacity: 0.8;
+        background-color: ${COLORS.hoverBackground};
+        color: ${COLORS.hoverColor};
     }
 `
 

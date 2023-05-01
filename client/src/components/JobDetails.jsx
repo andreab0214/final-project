@@ -7,6 +7,7 @@ import DisplayForm from './DisplayForm';
 import { UserContext } from './UserContext';
 import ImageDisplay from './ImageDisplay';
 
+//TODO: ADD TIME FOR NOTES 
 
 const JobDetails = () => {
     const {userName, jobId} = useParams();

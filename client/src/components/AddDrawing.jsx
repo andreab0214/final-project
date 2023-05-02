@@ -1,5 +1,7 @@
 import {useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import {COLORS} from "../constants/COLORS";
+import styled from 'styled-components';
 
 const AddDrawing = ({setAddedDrawings}) => {
     const [drawings, setDrawings] = useState()
@@ -59,17 +61,49 @@ const AddDrawing = ({setAddedDrawings}) => {
     
   return (
     <>
-    <button onClick={handleShowDrawing}>Add Drawing</button>
+    {!showDrawing ? <StyledButton onClick={handleShowDrawing}>Add Drawing</StyledButton> : null }
+    
  {showDrawing ?  <form onSubmit={handleOnSubmit}>
 
             <div>
                 <label htmlFor='drawings'>Drawings:</label>
-                <input name='drawings' type="file" accept='image/' multiple="multiple" onChange={handleDrawingUpload}/>
+                <FileInput name='drawings' type="file" accept='image/' multiple="multiple" onChange={handleDrawingUpload}/>
             </div>
-           <button type='submit'>Make Changes</button>
+           <StyledButton type='submit'>Add Drawings</StyledButton>
         </form>  : null}
         </>
   )
 }
+
+const StyledButton = styled.button`
+    font-size: 1rem;
+    padding: .5rem;
+    border: none;
+    border-radius: 3px;
+    background-color: ${COLORS.linkBackground};
+        &:hover{
+            background-color: ${COLORS.hoverBackground};
+            color: ${COLORS.hoverColor};
+            cursor: pointer;
+        }
+`
+const FileInput = styled.input.attrs({type: 'file'})`
+margin-left: .5rem;
+padding: .5rem;
+  &::-webkit-file-upload-button {
+    all:unset;
+    background-color: ${COLORS.secondaryBackground};
+    padding: 1em;
+    border-radius: 3px;
+    margin-right: 1rem;
+        &:hover{
+            cursor: pointer;
+            background-color: ${COLORS.hoverBackground};
+            color: ${COLORS.hoverColor};
+        }
+    
+  }
+ 
+`
 
 export default AddDrawing

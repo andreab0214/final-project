@@ -1,7 +1,7 @@
 import React, { useState,useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from './UserContext';
-import {COLORS} from "../constants/COLORS"
+import {COLORS} from "../constants/COLORS";
 import styled from 'styled-components';
 
 const CreateJob = () => {
@@ -23,13 +23,6 @@ const CreateJob = () => {
             notes: []
         }
     );
-
-        //if currentUser is not defined, return user to login
-    useEffect(()=>{
-        if(!currentUser){
-            navigate("/login")
-        }
-    },[currentUser])
     
 
     //fetch form templates from database
@@ -72,10 +65,13 @@ const CreateJob = () => {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
+    //create a note object  
     const handleNotes = (e) => {
-        const tempNotesArr = [];
-        tempNotesArr.push(e.target.value);
-        setFormData({...formData, notes: tempNotesArr})
+        const newNote = {
+            note: e.target.value,
+            by: currentUser.fname,
+        }
+        setFormData({...formData, notes: newNote})
     }
 
     const handleForms = (e) => {
@@ -132,7 +128,7 @@ const CreateJob = () => {
     }
 
   return (
-    <Div>
+    <div>
         <h2>Create New Job</h2>
         <Form onSubmit={handleOnSubmit}>
         
@@ -161,10 +157,10 @@ const CreateJob = () => {
                 <label htmlFor='address'>Address:</label>
                 <StyledInput name='address' type="address" id='address' onChange={handleOnChange} />
             </LabelDiv>
-            <LabelDiv>
+            <LabelAreaDiv>
                 <label htmlFor='notes'>Additional Info:</label>
                 <StyledTextArea name='notes' type="text" id='notes' onChange={handleNotes}/>
-            </LabelDiv>
+            </LabelAreaDiv>
             <LabelDiv>
                 <label htmlFor='drawings'>Drawings:</label>
                 <FileInput name='drawings' type="file" accept='image/' multiple="multiple" onChange={handleDrawingUpload}/>
@@ -182,27 +178,15 @@ const CreateJob = () => {
         {errors ? <div>
             <p>{errors} </p>
         </div> : null }
-    </Div>
+    </div>
   )
 }
-
-const Div = styled.div`
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-`
 
 const Form = styled.form`
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 0.5rem;
-
-    div{
-        display: flex;
-        align-items: center;
-    }
 
     label{
         text-align: right;
@@ -213,6 +197,8 @@ const Form = styled.form`
 const LabelDiv = styled.div`
     display:flex;
     justify-content: space-between;
+    align-items: center;
+
 `
 
 const StyledInput = styled.input`
@@ -224,6 +210,14 @@ const StyledInput = styled.input`
     margin-left: .5rem;
     width: 20rem;
 `
+
+const LabelAreaDiv = styled.div`
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .7rem;
+`
+
 const StyledTextArea = styled.textarea`
     all: unset;
     font-size: 1rem;
@@ -231,9 +225,7 @@ const StyledTextArea = styled.textarea`
     border-radius: 5px;
     box-sizing: border-box;
     padding: .5rem;
-    margin-left: .5rem;
-    width: 20rem;
-    
+    width: 100%;
 `
 
 const FileInput = styled.input.attrs({type: 'file'})`
@@ -241,7 +233,7 @@ margin-left: .5rem;
 padding: .5rem;
   &::-webkit-file-upload-button {
     all:unset;
-    background-color: ${COLORS.linkBackground};
+    background-color: ${COLORS.secondaryBackground};
     padding: 1em;
     border-radius: 3px;
     margin-right: 1rem;
@@ -255,9 +247,9 @@ padding: .5rem;
  
 `
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
     font-size: 1rem;
-    padding: .5rem;
+    padding: .7rem;
     border: none;
     border-radius: 3px;
     background-color: ${COLORS.linkBackground};
@@ -266,7 +258,6 @@ const StyledButton = styled.button`
             color: ${COLORS.hoverColor};
             cursor: pointer;
         }
-    
 `
 
 export default CreateJob

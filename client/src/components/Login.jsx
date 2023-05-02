@@ -2,6 +2,7 @@ import {useState, useContext, useEffect} from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import { COLORS } from '../constants/COLORS';
+import { StyledButton } from './CreateJob';
 import styled from 'styled-components';
 
 const Login = () => {
@@ -103,18 +104,6 @@ const StyledInput = styled.input`
     margin-left: .5rem;
     width: 20rem;
 `
-const StyledButton = styled.button`
-    font-size: 1rem;
-    padding: .5rem;
-    border: none;
-    border-radius: 3px;
-    background-color: ${COLORS.linkBackground};
-        &:hover{
-            background-color: ${COLORS.hoverBackground};
-            color: ${COLORS.hoverColor};
-            cursor: pointer;
-        }
-    
-`
+
 
 export default Login

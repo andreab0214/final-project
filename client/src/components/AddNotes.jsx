@@ -1,14 +1,24 @@
-import React, { useState } from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import React, { useState, useContext } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from './UserContext';
+import styled from 'styled-components';
+import {StyledButton} from "./CreateJob"
 
 const AddNotes = ({setJobDetails}) => {
     const [notes, setNotes] = useState()
+    const [noteDisplay, setNoteDisplay] = useState()
     const [error, setError] = useState()
     const {userName, jobId} = useParams();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const {currentUser, setCurrentUser} = useContext(UserContext);
 
     const handleOnChange = (e) => {
-        setNotes(e.target.value)
+        const newNote = {
+            note: e.target.value,
+            by: currentUser.fname ? currentUser.fname : currentUser.name  ,
+        }
+        setNotes(newNote)
+        setNoteDisplay(e.target.value)
     }
 
     const handleOnSubmit = (e) => {
@@ -25,12 +35,13 @@ const AddNotes = ({setJobDetails}) => {
 .then(res => res.json())
 .then(data => {
     if(data.status === 200){
+        //fetch again to update the screen with new note
         fetch(`/api/jobDetails/${userName}/${jobId}`)
         .then(res => res.json())
         .then(data => {
             if(data.status === 200){
                 setJobDetails(data.data)
-                setNotes("")
+                setNoteDisplay("")
             }
             else if(data.status === 401){
                 navigate('/login')
@@ -38,31 +49,50 @@ const AddNotes = ({setJobDetails}) => {
                setError(data.message)
            }
         })
-        .catch(err => console.log(err))
+        .catch(err => setError(err))
     }
     else if(data.status === 401){
         navigate('/login')
     } else{
-        console.log(data.message)
-        //setErrors(data.message)
+        setError(data.message)
     }
 })
-.catch(err => console.log(err))
+.catch(err => setError(err))
     }
 
     return (
         <>
        
         <form onSubmit={handleOnSubmit}>
-        <div>
+        <LabelTextContainer>
                 <label htmlFor='notes'>Additional Info:</label>
-                <textarea name='notes' type="text" id='notes' onChange={handleOnChange} value={notes}/>
-            </div>
-            <button type='submit'>Add Note</button>
+                <StyledTextArea name='notes' type="text" id='notes' onChange={handleOnChange} value={noteDisplay}/>
+            </LabelTextContainer>
+            <StyledButton type='submit'>Add Note</StyledButton>
             </form> 
             {error ? <p>{error}</p> : null}
             </>
     )
 }
+
+const LabelTextContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+`
+
+const StyledTextArea = styled.textarea`
+    all: unset;
+    font-size: 1rem;
+    height: 6rem;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: .5rem;
+    width: 60vw;
+`
+
+
 
 export default AddNotes

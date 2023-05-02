@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import {COLORS} from "../constants/COLORS";
 
 const Footer = () => {
   return (
@@ -27,8 +28,7 @@ const Container = styled.footer`
   flex-direction: column;
   gap: 1rem;
   height: 5rem;
-  background: #aac4ff;
-  background-color: black;
+  background-color: ${COLORS.footer};
   position:fixed;
   left:0;
   bottom:0;
@@ -37,18 +37,17 @@ const Container = styled.footer`
 
 
 const StyledLink = styled(Link)`
+  all: unset;
   font-weight: 700;
-  text-decoration: none;
-  color: white;
   margin: 0 2rem;
 
   :hover {
     text-decoration: underline;
+    cursor:pointer
   }
 
-`;
+`
 
 const TextCopyright = styled.p`
   font-weight: 700;
-  color: white;
 `;

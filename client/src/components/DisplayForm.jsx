@@ -1,6 +1,9 @@
 import {useState, useContext} from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import { StyledButton } from './CreateJob';
+import {COLORS} from "../constants/COLORS";
+import styled from 'styled-components';
 
 const DisplayForm = ({form}) => {
     const [formData, setFormData] = useState(form)
@@ -44,22 +47,60 @@ const DisplayForm = ({form}) => {
                     }
     
             return (
-    <div>
-    <h2>{formData.formName} </h2>
-    <form onSubmit={handleOnSubmit} >
+    <FormContainer>
+    <H2>{formData.formName} </H2>
+    <Form onSubmit={handleOnSubmit} >
     {formData?.elements.map((element,i)=>{
         return (
-            <fieldset key={i} disabled={currentUser.role !== "user" || formData.isAnswered ? true : false}>
+            <LabelDiv key={i} >
                 <label htmlFor={element.label}>{element.question} </label>
-                <input type={element.type} name={element.label} id={element.id} onChange={handleOnChange} required  defaultValue={formData.isAnswered ? element.answer : ""}/>
-            </fieldset>
+                <StyledInput type={element.type} name={element.label} id={element.id} onChange={handleOnChange} required  defaultValue={formData.isAnswered ? element.answer : ""} disabled={currentUser.role !== "user" || formData.isAnswered ? true : false}/>
+            </LabelDiv>
         )
     })}
-    <button type='submit' disabled={currentUser.role !== "user" || formData.isAnswered ? true : false}>Submit Form</button>
-    </form>
+    <StyledButton type='submit' disabled={currentUser.role !== "user" || formData.isAnswered ? true : false}>Submit Form</StyledButton>
+    </Form>
    
-    </div>
+    </FormContainer>
   )
 }
+
+const FormContainer = styled.div`
+    box-shadow: 2px 2px 15px lightgray;
+    padding: 1rem;
+    border-radius: 5px;
+`
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.8rem;
+    margin-top:1rem;
+    label{
+        text-align: right;
+    }
+`
+const H2 = styled.h2`
+    text-align: center;
+    font-size: 1.2rem;
+`
+
+const LabelDiv = styled.fieldset`
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
+const StyledInput = styled.input`
+    all: unset;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: .5rem;
+    margin-left: .5rem;
+    width: 20rem;
+    background-color: ${(props)=> props.disabled ? "#e8e8e8" : "white"}
+`
 
 export default DisplayForm

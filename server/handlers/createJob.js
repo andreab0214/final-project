@@ -55,6 +55,13 @@ const createJob = async (req, res) => {
 
       const drawingUrls = uploads;
 
+      const noteArray = [];
+      const date = new Date();
+      const formattedDate = date.toLocaleString();
+
+      const newNote = { ...notes, timestamp: formattedDate };
+      noteArray.push(newNote);
+
       const job = {
         _id: jobId,
         jobId: jobId,
@@ -63,7 +70,7 @@ const createJob = async (req, res) => {
         address: address,
         forms: forms,
         drawings: drawings.length >= 0 ? drawingUrls : null,
-        notes: notes,
+        notes: noteArray,
         completed: false,
         approved: false,
       };

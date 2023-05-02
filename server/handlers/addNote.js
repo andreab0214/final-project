@@ -21,13 +21,18 @@ const addNote = async (req, res) => {
     const db = client.db("onSite");
     const loggedUser = await db.collection("users").findOne({ _id: _id });
 
+    const date = new Date();
+    const formattedDate = date.toLocaleString();
+
+    const newNote = { ...notes, timestamp: formattedDate };
+
     const updatedUser = await db.collection("users").findOneAndUpdate(
       {
         company_id: loggedUser.company_id,
         name: userName,
         jobs: { $elemMatch: { jobId: jobId } },
       },
-      { $push: { "jobs.$.notes": notes } },
+      { $push: { "jobs.$.notes": newNote } },
       { returnOriginal: false }
     );
     const jobData = updatedUser.value.jobs.find((job) => job.jobId === jobId);

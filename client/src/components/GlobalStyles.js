@@ -35,11 +35,11 @@ export default createGlobalStyle`
       display: block;
   }
   body {
-      line-height: 1;
+      line-height: 1.2;
       font-family: 'poppins', sans-serif;
       background-color: ${COLORS.background};
       color: ${COLORS.color};
-      font-size: 1.2rem;
+      font-size: 1.1rem;
   }
   ol, ul {
       list-style: none;

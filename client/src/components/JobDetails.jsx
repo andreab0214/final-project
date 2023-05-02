@@ -6,6 +6,8 @@ import PdfDisplayer from './PdfDisplayer';
 import DisplayForm from './DisplayForm';
 import { UserContext } from './UserContext';
 import ImageDisplay from './ImageDisplay';
+import {COLORS} from "../constants/COLORS";
+import styled from 'styled-components';
 
 //TODO: ADD TIME FOR NOTES 
 
@@ -34,7 +36,7 @@ const JobDetails = () => {
                 setErrors(data.message)
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => setErrors(err))
     },[addedDrawings])
 
     const handleShowDrawings = () => {
@@ -62,7 +64,7 @@ const handleJobApproval = (e) => {
     navigate(`/dashboard/${userName}`)
    }
 })
-.catch(err => console.log(err))
+.catch(err => setErrors(err))
 }
 
 const handleJobCompleted = (e) => {
@@ -80,20 +82,20 @@ const handleJobCompleted = (e) => {
 .then(data => {
    setMarkCompleted(true)
 })
-.catch(err => console.log(err))
+.catch(err => setErrors(err))
 }
 
 
   return (
-    <div>
-<p>Job Details:</p>
+    <Container>
+<H2>Job Details:</H2>
 
-<p> Type: {jobDetails.type} </p>
-<p>Job Id: {jobDetails.jobId} </p>
-<p>Client: {jobDetails.client} </p>
-<p>Address: {jobDetails.address} </p>
+<p> Type: <Bold>{jobDetails.type}</Bold></p>
+<p>Job Id: <Bold>{jobDetails.jobId}</Bold></p>
+<p>Client: <Bold>{jobDetails.client}</Bold></p>
+<p>Address: <Bold>{jobDetails.address}</Bold> </p>
 
-<button onClick={handleShowDrawings}>Show Drawings</button>
+<StyledButton onClick={handleShowDrawings}>Show Drawings</StyledButton>
 {isShow ? jobDetails.drawings.length > 0 ? 
     jobDetails.drawings.map((drawing) => {
         if(drawing.format === "pdf"){
@@ -114,21 +116,91 @@ const handleJobCompleted = (e) => {
  
  {jobDetails.notes.length > 0 ? 
  jobDetails.notes.map((note, i) => {
-    
-    return <p key={i}>{note} </p>
+    return <NoteContainer key={i}>
+        <p>{note.note}</p>
+        <ByTimeContainer>
+        <p>By: {note.by}</p>
+        <p>{note.timestamp}</p>
+        </ByTimeContainer>
+        
+        </NoteContainer>
  })
  : null}
  <AddNotes setJobDetails={setJobDetails} />
  {/* if currentUser is a "user" allow them click on the "job Completed" button. if the job is already completed, disable it */}
- {currentUser?.role === "user" ? <button onClick={handleJobCompleted} disabled={jobDetails.completed || markCompleted}>Mark Job as Completed</button> : null}
+ {currentUser?.role === "user" ? <ImportantButton onClick={handleJobCompleted} disabled={jobDetails.completed || markCompleted}>Mark Job as Completed</ImportantButton> : null}
 
  {/* if currentUser is "admin/manager" allow them click on the "Approve Job" button. if the job is already approved, disable it */}
- {currentUser?.role === "user" ? null : !jobDetails.approved ? <button onClick={handleJobApproval} disabled={jobDetails.approved || jobApproval}>Approve this Job</button> : <p>Approved: Yes </p>  }
+ {currentUser?.role === "user" ? null : !jobDetails.approved ? <ImportantButton onClick={handleJobApproval} disabled={jobDetails.approved || jobApproval}>Approve this Job</ImportantButton> : <p>Approved: Yes </p>  }
 
 {errors ? <p>{errors}</p> : null}
-    </div>
+    </Container>
 
   )
 }
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 3rem;
+`
+const H2 = styled.h2`
+    font-size: 1.5rem;
+`
+const Bold = styled.span`
+    font-weight: bold;
+`
+
+const StyledButton = styled.button`
+    font-size: 1rem;
+    padding: .5rem;
+    border: none;
+    border-radius: 3px;
+    background-color: ${COLORS.linkBackground};
+        &:hover{
+            background-color: ${COLORS.hoverBackground};
+            color: ${COLORS.hoverColor};
+            cursor: pointer;
+        }
+`
+
+const NoteContainer = styled.div`
+    box-shadow: 2px 2px 15px lightgray;
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: left;
+       
+`
+
+const ByTimeContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    
+     p{
+            font-size: 0.9rem;
+            font-style: italic;
+            color: gray;
+            margin-right: 1rem;
+        }
+`
+
+const ImportantButton = styled.button`
+    font-size: 1rem;
+    padding: .8rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    border: none;
+    border-radius: 3px;
+    background-color: ${COLORS.importantBackground};
+        &:hover{
+            background-color: ${COLORS.hoverBackground};
+            color: ${COLORS.hoverColor};
+            cursor: pointer;
+        }
+`
+
 
 export default JobDetails

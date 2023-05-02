@@ -13,7 +13,6 @@ const validateToken = (req, res, next) => {
         return res.status(401).json({ status: 401, message: "invalid user" });
       }
       req.user = decoded;
-      console.log(req.user);
       return next();
     });
   } catch (err) {

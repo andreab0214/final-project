@@ -19,7 +19,6 @@ const answerForm = async (req, res) => {
     await client.connect();
     const db = client.db("onSite");
 
-    console.log(user);
     //find user
     const loggedUser = await db.collection("users").findOne({ _id: _id });
 

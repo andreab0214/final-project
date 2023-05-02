@@ -70,7 +70,7 @@ const createJob = async (req, res) => {
         address: address,
         forms: forms,
         drawings: drawings.length >= 0 ? drawingUrls : null,
-        notes: noteArray,
+        notes: notes.length === 0 ? [] : noteArray,
         completed: false,
         approved: false,
       };

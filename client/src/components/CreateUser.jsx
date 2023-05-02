@@ -14,7 +14,7 @@ const CreateUser = ({userId, setCreateUser, myUser,setMyUser}) => {
     //navigate the user to their dashboard once the myUser state has changed from POST
     useEffect(() => {
         if(myUser ){
-          navigate(`/dashboard/myUser.name`)}
+          navigate(`/dashboard/${myUser.name}`)}
       }, [myUser])
 
 const handleOnChange = (e) => {

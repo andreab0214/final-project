@@ -17,7 +17,6 @@ const UserProfile = () => {
     //tracking if its the first time admin creates their users. if it is, let them create the users account. if not, display user info
     const [createUser, setCreateUser] = useState(false)
 
-
     useEffect(() => {
         fetch(`/api/user/${userName}`)
         .then(res => {

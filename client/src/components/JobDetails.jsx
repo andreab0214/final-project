@@ -80,7 +80,9 @@ const handleJobCompleted = (e) => {
     })
 .then(res => res.json())
 .then(data => {
-   setMarkCompleted(true)
+    if(data.status === 200){
+        navigate(`/dashboard/${userName}`)
+       }
 })
 .catch(err => setErrors(err))
 }
@@ -194,10 +196,10 @@ const ImportantButton = styled.button`
     margin-top: 2rem;
     border: none;
     border-radius: 3px;
-    background-color: ${COLORS.importantBackground};
+    background-color: ${(props) => props.disabled ? "lightgray" : COLORS.importantBackground};
         &:hover{
-            background-color: ${COLORS.hoverBackground};
-            color: ${COLORS.hoverColor};
+            background-color: ${(props) => props.disabled ? "lightgray" : COLORS.hoverBackground};
+            color: ${(props) => props.disabled ? null : COLORS.hoverColor};
             cursor: pointer;
         }
 `

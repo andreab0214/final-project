@@ -86,7 +86,6 @@ const createUser = async (req, res) => {
   const _id = user._id;
   const { userId } = req.params;
   const { name, email, password } = req.body.formData;
-
   try {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
@@ -107,7 +106,6 @@ const createUser = async (req, res) => {
         jobs: [],
         role: "user",
       };
-
       //create credentials user
       const userCredentials = {
         _id: userId,

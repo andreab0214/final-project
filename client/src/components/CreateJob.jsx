@@ -67,11 +67,14 @@ const CreateJob = () => {
 
     //create a note object  
     const handleNotes = (e) => {
-        const newNote = {
-            note: e.target.value,
-            by: currentUser.fname,
+        if(e.target.value !== ""){
+            const newNote = {
+                note: e.target.value,
+                by: currentUser.fname,
+            }
+            setFormData({...formData, notes: newNote})
         }
-        setFormData({...formData, notes: newNote})
+        
     }
 
     const handleForms = (e) => {
@@ -110,7 +113,6 @@ const CreateJob = () => {
             })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             if(data.status === 200){
                 navigate(`/dashboard/${myUser.name}`)
             }
@@ -185,9 +187,9 @@ const CreateJob = () => {
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 40vw;
     gap: 0.5rem;
-
+    margin-top: 1rem;
     label{
         text-align: right;
     }

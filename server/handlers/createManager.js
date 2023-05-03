@@ -53,7 +53,9 @@ const createManager = async (req, res) => {
           password: hashedPassword,
         };
 
+        //add manager to users
         await db.collection("users").insertOne(newManager);
+        //add manager credentials
         await db.collection("user-credentials").insertOne(userCredentials);
 
         //need to add manager in admin object
@@ -62,6 +64,14 @@ const createManager = async (req, res) => {
           .updateOne(
             { _id: _id },
             { $push: { managers: { $each: [newManager] } } }
+          );
+
+        //add manager id to companies array
+        const company = await db
+          .collection("companies")
+          .updateOne(
+            { _id: loggedUser.company_id },
+            { $push: { managersId: [newManager._id] } }
           );
 
         res

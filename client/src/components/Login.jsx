@@ -1,7 +1,6 @@
 import {useState, useContext, useEffect} from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
-import { COLORS } from '../constants/COLORS';
 import { StyledButton } from './CreateJob';
 import styled from 'styled-components';
 
@@ -15,6 +14,8 @@ const Login = () => {
         setFormData({...formData, [e.target.name]: e.target.value})
     };
 
+    //if logged in user is a "user", send them to dashbord/currentUser.name if not, send them to /dashboard
+
     useEffect(() => {
       if(currentUser && currentUser.role !== "user"){
         navigate(`/dashboard`)
@@ -23,6 +24,7 @@ const Login = () => {
       }
     }, [currentUser])
 
+    //POST user info to server to verify user and set JWT
     const handleOnSubmit = (e) => {
         e.preventDefault()
           fetch("/api/login", {
@@ -38,7 +40,6 @@ const Login = () => {
             if(data.status === 200){
                setCurrentUser(data.data)
             } else {
-                console.log(data)
                 setError(data.message);
             }
         })

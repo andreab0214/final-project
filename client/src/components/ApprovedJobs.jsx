@@ -7,6 +7,7 @@ const ApprovedJobs = () => {
     const {userName} = useParams()
     const [user, setUser] = useState()
 
+    //fetch user info to get all jobs related to that user
     useEffect(()=> {
         fetch(`/api/user/${userName}`)
         .then(res => res.json())
@@ -25,6 +26,7 @@ const ApprovedJobs = () => {
         <H3>Approved Jobs:</H3>
        {user.jobs.length > 0 ?
         <JobContainer>
+            {/* only display jobs that have been approved */}
         {user.jobs.map((job) => {
             if(job.approved){
                 return <JobCard job={job} userName={userName} key={job._id} />

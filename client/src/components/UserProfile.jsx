@@ -13,6 +13,7 @@ const UserProfile = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext);
     const [isLoading, setIsLoading] = useState(true)
     const [myUser, setMyUser] = useState();
+    const [errors, setErrors] = useState();
     const user = location.state
     //tracking if its the first time admin creates their users. if it is, let them create the users account. if not, display user info
     const [createUser, setCreateUser] = useState(false)
@@ -23,18 +24,21 @@ const UserProfile = () => {
             return res.json()})
         .then(data => {
             if(data.status === 200) {
+                //if user is found save it in myUser state
                 setMyUser(data.data)
                 setIsLoading(false)
-            } if(data.status === 400){
+            } else if(data.status === 400){
+                //if user is not found, set createUser state to true so client can create the users profile
                 setCreateUser(true)
                 setIsLoading(false)
-            } if(data.status === 401){
+            } else if(data.status === 401){
+                //if user is not authorized, send them to login
                 setCurrentUser(null)
                 navigate('/login')
             } 
              else {
                 setIsLoading(false)
-               // console.log(data.message)
+                setErrors(data.message)
                
             }
         })
@@ -46,9 +50,9 @@ const UserProfile = () => {
         return <div>...Loading</div>
        }
 
-
   return (
     <div>
+        {/* if no user found, create a user */}
         {createUser ? 
         <CreateUser userId={user?._id} setCreateUser={setCreateUser} myUser={myUser} setMyUser={setMyUser} />
         : 
@@ -66,16 +70,20 @@ const UserProfile = () => {
         </DivContainer>
         
         <JobContainer>
-            {myUser.jobs.map((job)=>{
+            {myUser?.jobs.length > 0 ?
+            myUser.jobs.map((job)=>{
+                /* only display jobs that have not yet been approved */
                 if(!job.approved){
                     return (
                         <JobCard job={job} userName={myUser.name} key={job._id}/>
                     )
                 }
                 
-            })}
+            })
+            : <p>No jobs yet</p>}
+            
         </JobContainer>
-        
+        {errors ? <p>{errors} </p> : null}
         </div>
     }
         

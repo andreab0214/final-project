@@ -6,11 +6,10 @@ import styled from 'styled-components';
 
 const CreateJob = () => {
     const location = useLocation();
-    const myUser = location.state;
+    const myUser = location.state;  //get myUser info from previous state 
     const navigate = useNavigate()
     const {currentUser, setCurrentUser} = useContext(UserContext);
-    const [drawings, setDrawings] = useState();
-    const [templates, setTemplates] = useState();
+    const [templates, setTemplates] = useState(); //state to store templates fetched from database
     const [errors, setErrors] = useState(null);
     const [formData, setFormData] = useState(
         {
@@ -25,7 +24,7 @@ const CreateJob = () => {
     );
     
 
-    //fetch form templates from database
+    //fetch form templates from database and store them in state
     useEffect(() => {
         fetch('/api/templates')
         .then(res => res.json())
@@ -40,6 +39,7 @@ const CreateJob = () => {
     },[])
 
 
+        //upload files and transform them
     const handleDrawingUpload = (e) => {
         const files = e.target.files;
         transformFile(files)
@@ -54,7 +54,6 @@ const CreateJob = () => {
            reader.readAsDataURL(file);
            reader.onloadend = () => {
             tempFileArray.push(reader.result)
-            setDrawings(tempFileArray)
         setFormData({...formData, drawings: tempFileArray})
         }
           
@@ -77,6 +76,7 @@ const CreateJob = () => {
         
     }
 
+        //if form is checked, add it to form data, if it is unchecked, remove the form
     const handleForms = (e) => {
         const formName = e.target.name;
         const isChecked = e.target.checked;
@@ -101,6 +101,7 @@ const CreateJob = () => {
         setFormData({...formData, forms: copyFormData})
     }
    
+    //add job to user 
     const handleOnSubmit = (e) => {
         e.preventDefault()
         fetch(`/api/create-job/${myUser._id}`,{
@@ -113,6 +114,7 @@ const CreateJob = () => {
             })
         .then(res => res.json())
         .then(data => {
+            //if approved, navigate to that users profile
             if(data.status === 200){
                 navigate(`/dashboard/${myUser.name}`)
             }

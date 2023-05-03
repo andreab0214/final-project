@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 const PdfDisplayer = ({pdfUrl}) => {
-
+  //display if file type is PDF
   return (
     <div>
        <StyledEmbed src={pdfUrl} type={"application/pdf"}  /> 

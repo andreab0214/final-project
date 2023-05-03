@@ -4,7 +4,7 @@ import { BRONZE_PRICE, BRONZE_QUANTITY, SILVER_PRICE, SILVER_QUANTITY, GOLD_PRIC
 import styled from 'styled-components'
 
 const Packages = () => {
-
+  //display packages available to be purchased using constants 
   return (
     <Container>
     <PackageCard name={"Bronze Package"} quantity={BRONZE_QUANTITY} price={BRONZE_PRICE} />

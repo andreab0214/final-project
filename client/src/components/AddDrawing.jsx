@@ -4,20 +4,23 @@ import {COLORS} from "../constants/COLORS";
 import styled from 'styled-components';
 
 const AddDrawing = ({setAddedDrawings}) => {
-    const [drawings, setDrawings] = useState()
-    const [showDrawing, setShowDrawing] = useState(false)
+    const [drawings, setDrawings] = useState() // state for storing the uploaded drawings
+    const [showDrawing, setShowDrawing] = useState(false) // state for showing/hiding the add drawing feature
     const {userName, jobId} = useParams();
     const navigate = useNavigate()
+    const [errors, setErrors] = useState()
     
     const handleShowDrawing = () => {
         setShowDrawing(!showDrawing)
     }
 
+    //get uploaded files and transform them
     const handleDrawingUpload = (e) => {
         const files = e.target.files;
         transformFile(files)
     }
 
+    //transform files into 64base for cloudinary to be able to read
     const transformFile = (files) => {
         const tempFileArray = []
        for (let i = 0; i < files.length; i++){
@@ -32,6 +35,7 @@ const AddDrawing = ({setAddedDrawings}) => {
        }
     }
 
+        //add drawings to the job 
     const handleOnSubmit = (e) => {
         e.preventDefault()
         fetch(`/api/jobs/addDrawing/${userName}/${jobId}`,
@@ -49,11 +53,11 @@ const AddDrawing = ({setAddedDrawings}) => {
         //change state of AddedDrawings so jobDetails will re-render
         setAddedDrawings(data.data)
     }
+    //if user is not authenticated, send them to login
     else if(data.status === 401){
         navigate('/login')
     } else{
-        console.log(data.message)
-        //setErrors(data.message)
+        setErrors(data.message)
     }
 })
 .catch(err => console.log(err))
@@ -71,6 +75,7 @@ const AddDrawing = ({setAddedDrawings}) => {
             </div>
            <StyledButton type='submit'>Add Drawings</StyledButton>
         </form>  : null}
+        {errors ? <p>{errors} </p> : null}
         </>
   )
 }

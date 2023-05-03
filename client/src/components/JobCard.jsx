@@ -4,13 +4,14 @@ import styled from 'styled-components'
 import { COLORS } from '../constants/COLORS'
 
 const JobCard = ({job, userName}) => {
+    //display the jobDetails
   return (
     <JobLink key={job._id} to={`/jobs/${userName}/${job.jobId}`} iscompleted={job.completed.toString()} isapproved={job.approved.toString()} >
                        
     <p>Job Id: {job.jobId} </p>
     <p>Type: {job.type} </p>
     <p>Client: {job.client} </p>
-    <p>Completed: {job.completed ? "yes" : "no"} </p>
+    <p>Completed: {job.completed ? "Yes" : "No"} </p>
    
 </JobLink>
   )

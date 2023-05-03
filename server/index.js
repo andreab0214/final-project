@@ -7,17 +7,12 @@ const cookieParser = require("cookie-parser");
 const port = 4000;
 const { validateToken } = require("./middleware/verifyToken.js");
 
-const {
-  getUsers,
-  getUserId,
-  createNewCompany,
-  loginJWT,
-  getUserProfile,
-  createUser,
-} = require("./handlers");
-
+const getUserId = require("./handlers/getUserId");
+const getUserProfile = require("./handlers/getUserProfile");
+const createUser = require("./handlers/createUser");
+const createNewCompany = require("./handlers/createNewCompany");
+const loginJWT = require("./handlers/loginJWT");
 const createJob = require("./handlers/createJob");
-
 const jobDetails = require("./handlers/jobDetails");
 const approveJob = require("./handlers/approveJob");
 const addDrawing = require("./handlers/addDrawing");
@@ -36,10 +31,6 @@ express()
   .use(express.static("public"))
   .use(cookieParser())
 
-  //stretch, create a middleware for checking user roles for permissions
-
-  .get("/api/users", getUsers)
-  //batchImport not working, used this to import templates.json
   .post("/api/addTemplates", addTemplates)
   .get("/api/templates", validateToken, getTemplates)
   .get("/api/user", validateToken, getUserId)

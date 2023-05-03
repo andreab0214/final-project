@@ -37,7 +37,6 @@ const AddManager = () => {
                 })
               .catch(err => {
                 console.log(err)
-                //setError(err.message)
             })
        }
       
@@ -45,6 +44,7 @@ const AddManager = () => {
   return (
 
     <div>
+        {/* see if the current user has admin privileges to add a manager */}
         {currentUser?.role !== "admin" ? <p>You do not have permission to add a manager</p> : 
        <Div>
        <p>Please create your manager</p>

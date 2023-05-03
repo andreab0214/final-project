@@ -21,6 +21,7 @@ const handleOnChange = (e) => {
   setFormData({...formData, [e.target.name]: e.target.value})
  }
 
+ //POST user to database 
  const handleOnSubmit = (e) => {
   e.preventDefault()
   fetch(`/api/create-user/${userId}`, {
@@ -34,8 +35,8 @@ const handleOnChange = (e) => {
         .then(res => res.json())
         .then(data => {
           if(data.status === 200){
-              setMyUser(data.data)
-              setCreateUser(false)
+              setMyUser(data.data) //update MyUser to the newly created user to rerender in useEffect
+              setCreateUser(false) //set createUser to false since the user has now been created
           } if(data.status === 401){
             setCurrentUser(null)
               navigate("/login")
@@ -43,7 +44,7 @@ const handleOnChange = (e) => {
             setError(data.message)
           }
           })
-        .catch(err => setError(data.message))
+        .catch(err => console.log(err))
  }
 
   return (

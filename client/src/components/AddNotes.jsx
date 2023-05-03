@@ -5,13 +5,15 @@ import styled from 'styled-components';
 import {StyledButton} from "./CreateJob"
 
 const AddNotes = ({setJobDetails}) => {
-    const [notes, setNotes] = useState()
-    const [noteDisplay, setNoteDisplay] = useState()
+    const [notes, setNotes] = useState() //state to store note
+    const [noteDisplay, setNoteDisplay] = useState() //state to store what to display in input defaultValue
     const [error, setError] = useState()
     const {userName, jobId} = useParams();
     const navigate = useNavigate();
     const {currentUser, setCurrentUser} = useContext(UserContext);
 
+    //update the note state with the value of the note and what user wrote it
+    //change the state of noteDisplay to the value entered 
     const handleOnChange = (e) => {
         const newNote = {
             note: e.target.value,
@@ -21,8 +23,8 @@ const AddNotes = ({setJobDetails}) => {
         setNoteDisplay(e.target.value)
     }
 
+        //add note to job
     const handleOnSubmit = (e) => {
-        
         e.preventDefault()
         fetch(`/api/jobs/addNote/${userName}/${jobId}`,
     {method: "PATCH",

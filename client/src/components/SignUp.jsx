@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {COLORS} from "../constants/COLORS"
 
 const SignUp = ({numUsers}) => {
-    const [formData, setFormData] = useState({fname: "", lname: "", email: "", password: "", users:numUsers, creditCard: "", expiry: "" })
+    const [formData, setFormData] = useState({fname: "", lname: "", email: "", password: "", users:numUsers, creditCard: "", expiry: "" }) //iniate formData state. numUsers is number of users being purchased 
     const navigate = useNavigate();
     const [error, setError] = useState();
 
@@ -12,6 +12,7 @@ const SignUp = ({numUsers}) => {
         setFormData({...formData, [e.target.name]: e.target.value })
     }
 
+    
     const handleOnSubmit = (e) => {
         e.preventDefault();
         fetch("/api/signup",
@@ -25,6 +26,7 @@ const SignUp = ({numUsers}) => {
           .then(res => res.json())
           .then(data => {
             if(data.status === 200){
+                //if signup succesful have user login to confirm and create a JWT
                 navigate(`/login`)
             } else {
                 setError(data.message)

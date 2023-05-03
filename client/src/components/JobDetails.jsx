@@ -9,17 +9,15 @@ import ImageDisplay from './ImageDisplay';
 import {COLORS} from "../constants/COLORS";
 import styled from 'styled-components';
 
-//TODO: ADD TIME FOR NOTES 
-
 const JobDetails = () => {
     const {userName, jobId} = useParams();
     const {currentUser, setCurrentUser} = useContext(UserContext);
-    const [jobDetails, setJobDetails] = useState()
+    const [jobDetails, setJobDetails] = useState() //state to save the job object from database
     const [errors, setErrors] = useState(null)
     const [isShow, setIsShow] = useState(false)
-    const [jobApproval, setJobApproval] = useState(false)
-    const [addedDrawings, setAddedDrawings] = useState(false)
-    const [markCompleted, setMarkCompleted]= useState(false)
+    const [jobApproval, setJobApproval] = useState(false) // state to save if job has been approved
+    const [addedDrawings, setAddedDrawings] = useState(false) //state to save if drawings have been added
+    const [markCompleted, setMarkCompleted]= useState(false) // state to save if job has been completed by user
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -47,6 +45,7 @@ const JobDetails = () => {
         return <div>...Loading</div>
     }
 
+    //if admin/manager approves the job, set jobApproval state and edit the job in database
 const handleJobApproval = (e) => {
     setJobApproval(true)
     e.preventDefault()
@@ -62,11 +61,14 @@ const handleJobApproval = (e) => {
 .then(data => {
    if(data.status === 200){
     navigate(`/dashboard/${userName}`)
+   } else {
+    setErrors(data.message)
    }
 })
-.catch(err => setErrors(err))
+.catch(err => console.log(err))
 }
 
+//if user completes the job, save state in markCompleted and set jobCompleted to true in database
 const handleJobCompleted = (e) => {
     setMarkCompleted(true)
     e.preventDefault()
@@ -111,11 +113,12 @@ const handleJobCompleted = (e) => {
  <p>Forms:</p>
  {jobDetails.forms.length > 0 ?
     jobDetails.forms.map((form)=>{
+        /* display the form and send the form data to the component */
         return <DisplayForm key={form._id} form={form} />
     })
  : null}
  <p>Notes:</p>
- 
+ {/* check to see if there are notes, if yes, display them */}
  {jobDetails.notes.length > 0 ? 
  jobDetails.notes.map((note, i) => {
     return <NoteContainer key={i}>

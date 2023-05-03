@@ -9,8 +9,9 @@ const Dashboard = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext);
     const [error, setError] = useState();
     const navigate = useNavigate();
-    const [managerDeleted, setManagerDeleted] = useState(false)
+    const [managerDeleted, setManagerDeleted] = useState(false) //state to track if manager is deleted
 
+    //if manager is deleted re-render page
     useEffect(() => {
         fetch(`/api/user`)
         .then(res => {
@@ -37,7 +38,6 @@ const Dashboard = () => {
                 Accept: "application/json",
                 "Content-Type": "application/json",
               },
-              //body: JSON.stringify({ formData: formData }),
             })
               .then(res => res.json())
               .then(data => {

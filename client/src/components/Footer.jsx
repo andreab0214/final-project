@@ -29,6 +29,7 @@ const Container = styled.footer`
   gap: 1rem;
   height: 5rem;
   background-color: ${COLORS.footer};
+  color: white;
   position:fixed;
   left:0;
   bottom:0;

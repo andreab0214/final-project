@@ -21,11 +21,8 @@ const createManager = async (req, res) => {
     //find admin user
     const loggedUser = await db.collection("users").findOne({ _id: _id });
 
-    //does manager email already exist in loggedUser
-    const existingManager = await db.collection("users").findOne({
-      _id: _id,
-      managers: { $elemMatch: { email: email } },
-    });
+    //does manager email already exist
+    const managerUser = await db.collection("users").findOne({ email: email });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -36,7 +33,7 @@ const createManager = async (req, res) => {
         message: "You do not have permission to add a manager",
       });
     } else {
-      if (!existingManager) {
+      if (!managerUser) {
         //create manager
         const newManager = {
           _id: uuidv4(),

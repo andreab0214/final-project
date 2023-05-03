@@ -2,10 +2,8 @@ import {useState, useEffect, useContext} from 'react'
 import { useParams } from 'react-router-dom'
 import JobCard from './JobCard'
 import styled from 'styled-components'
-import { UserContext } from './UserContext'
 
 const ApprovedJobs = () => {
-    const {currentUser, setCurrentUser} = useContext(UserContext);
     const {userName} = useParams()
     const [user, setUser] = useState()
 
@@ -24,7 +22,7 @@ const ApprovedJobs = () => {
 
   return (
     <div>
-        <h3>Approved Jobs:</h3>
+        <H3>Approved Jobs:</H3>
        {user.jobs.length > 0 ?
         <JobContainer>
         {user.jobs.map((job) => {
@@ -36,6 +34,11 @@ const ApprovedJobs = () => {
     </div>
   )
 }
+
+const H3 = styled.h3`
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+`
 
 const JobContainer = styled.div`
     display: flex;

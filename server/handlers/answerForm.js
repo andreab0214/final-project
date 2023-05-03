@@ -14,6 +14,7 @@ const answerForm = async (req, res) => {
   //job info
   const { formData } = req.body;
   const { userName, jobId } = req.params;
+
   try {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
@@ -22,7 +23,7 @@ const answerForm = async (req, res) => {
     //find user
     const loggedUser = await db.collection("users").findOne({ _id: _id });
 
-    const job = loggedUser.jobs.find((job) => job._id === jobId);
+    const job = loggedUser.jobs.find((job) => job.jobId === jobId);
     const formIndex = job.forms.findIndex((form) => form._id === formData._id);
 
     if (formIndex === -1) {

@@ -16,7 +16,7 @@ const DisplayForm = ({form}) => {
         const updatedElements = [...formData.elements]
         updatedElements.map((element) => {
             if(element.label === e.target.name) {
-                element.answer = e.target.value
+                return element.answer = e.target.value
             }
         })
   
@@ -54,7 +54,7 @@ const DisplayForm = ({form}) => {
         return (
             <LabelDiv key={i} >
                 <label htmlFor={element.label}>{element.question} </label>
-                <StyledInput type={element.type} name={element.label} id={element.id} onChange={handleOnChange} required  defaultValue={formData.isAnswered ? element.answer : ""} disabled={currentUser.role !== "user" || formData.isAnswered ? true : false}/>
+                <StyledInput type={element.type} name={element.label} id={element.id} onChange={handleOnChange} required  defaultValue={formData.isAnswered ? element.answer : ""} disabled={currentUser?.role !== "user" || formData.isAnswered ? true : false}/>
             </LabelDiv>
         )
     })}
@@ -100,7 +100,7 @@ const StyledInput = styled.input`
     padding: .5rem;
     margin-left: .5rem;
     width: 20rem;
-    background-color: ${(props)=> props.disabled ? "#e8e8e8" : "white"}
+    background-color: ${(props)=> props.disabled ? "#e8e8e860" : "white"}
 `
 
 export default DisplayForm

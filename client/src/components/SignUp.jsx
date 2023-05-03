@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {COLORS} from "../constants/COLORS"
 
 const SignUp = ({numUsers}) => {
-    const [formData, setFormData] = useState({fname: "", lname: "", email: "", password: "", users:numUsers })
+    const [formData, setFormData] = useState({fname: "", lname: "", email: "", password: "", users:numUsers, creditCard: "", expiry: "" })
     const navigate = useNavigate();
     const [error, setError] = useState();
 
@@ -55,6 +55,14 @@ const SignUp = ({numUsers}) => {
             <LabelDiv>
                 <label htmlFor='password'>Password:</label>
                 <StyledInput name='password' type="password" id="password" onChange={handleOnChange} required/>
+            </LabelDiv>
+            <LabelDiv>
+                <label htmlFor='creditCard'>Credit Card Number:</label>
+                <StyledInput name='creditCard' type="text" id="creditCard" placeholder='XXXX XXXX XXXX XXXX' onChange={handleOnChange} required/>
+            </LabelDiv>
+            <LabelDiv>
+                <label htmlFor='expiry'>Expiry:</label>
+                <StyledInput name='expiry' type="text" id="expiry" placeholder='MMYY' onChange={handleOnChange} required/>
             </LabelDiv>
             <StyledButton type='submit'>Purchase Now</StyledButton>
 

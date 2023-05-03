@@ -20,7 +20,7 @@ const CreateJob = () => {
             address: "",
             drawings: [],
             forms: [],
-            notes: []
+            notes: [],
         }
     );
     

@@ -14,6 +14,7 @@ import CreateJob from "./CreateJob";
 import JobDetails from "./JobDetails";
 import ApprovedJobs from "./ApprovedJobs";
 import Footer from "./Footer";
+import AddManager from "./AddManager";
 
 const App = () => {
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/dashboard/:userName" element={<UserProfile />} />
         <Route path="/approvedJobs/:userName" element={<ApprovedJobs />} />
         <Route path="/createjob" element={<CreateJob />} />
+        <Route path="/add-manager" element={<AddManager />} />
         <Route path="/jobs/:userName/:jobId" element={<JobDetails />} />
       </Routes>
       </Main>

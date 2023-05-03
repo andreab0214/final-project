@@ -27,6 +27,8 @@ const answerForm = require("./handlers/answerForm");
 const addTemplates = require("./handlers/addTemplates");
 const completeJob = require("./handlers/completeJob");
 const handleLogout = require("./handlers/handleLogout");
+const createManager = require("./handlers/createManager");
+const deleteManager = require("./handlers/deleteManager");
 
 express()
   .use(morgan("tiny"))
@@ -43,6 +45,7 @@ express()
   .get("/api/user", validateToken, getUserId)
   .get("/api/user/:userName", validateToken, getUserProfile)
   .post("/api/create-user/:userId", validateToken, createUser)
+  .post("/api/create-manager", validateToken, createManager)
   .post("/api/signup", createNewCompany)
   .post("/api/login", loginJWT)
   .get("/api/logout", validateToken, handleLogout)
@@ -53,6 +56,7 @@ express()
   .patch("/api/jobs/addNote/:userName/:jobId", validateToken, addNote)
   .patch("/api/jobs/answerForm/:userName/:jobId", validateToken, answerForm)
   .patch("/api/jobs/completed/:userName/:jobId", validateToken, completeJob)
+  .delete("/api/remove-manager/:managerId", validateToken, deleteManager)
 
   .get("*", (req, res) => {
     res.status(404).json({

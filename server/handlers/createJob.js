@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
+const { v4: uuidv4 } = require("uuid");
 const { cloudinary } = require("../utils/cloudinary");
 
 const options = {
@@ -63,7 +64,7 @@ const createJob = async (req, res) => {
       noteArray.push(newNote);
 
       const job = {
-        _id: jobId,
+        _id: uuidv4(),
         jobId: jobId,
         type: type,
         client: clientName,

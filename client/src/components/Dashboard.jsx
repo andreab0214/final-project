@@ -60,10 +60,13 @@ const Dashboard = () => {
     return <div>...Loading</div>
    }
 
+  
+
     return (
         <div>
-            {error ? <p>{error} </p> : 
-            <Container>
+            {/* if role is user - do not allow them to access */}
+                {currentUser.role === "user" ? <p>You do not have permission for this</p> : 
+                <Container>
                 <H2>{`Hello, ${currentUser.fname? currentUser.fname : currentUser.name}`} </H2> 
                 <P>My Users</P>
                 <UserContainer>
@@ -87,8 +90,9 @@ const Dashboard = () => {
                 
                 
                 
-            </Container>
-            }
+            </Container> }
+                  
+            {error ? <p>{error} </p> : null }
         </div>
     )
 }

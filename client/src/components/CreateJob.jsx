@@ -133,6 +133,10 @@ const CreateJob = () => {
 
   return (
     <div>
+        {/* only allow users with admin or manager roles */}
+    {currentUser.role !== "user" ? 
+    <div>
+        
         <h2>Create New Job</h2>
         <Form onSubmit={handleOnSubmit}>
         
@@ -182,6 +186,8 @@ const CreateJob = () => {
         {errors ? <div>
             <p>{errors} </p>
         </div> : null }
+    </div>
+    : <p>You do not have permission for this</p>}
     </div>
   )
 }
